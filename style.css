@@ -1,0 +1,201 @@
+/* =========================================
+   1. GLOBAL & BACKGROUND
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0a0a0a;
+  color: #eaeaea;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* MATRIX BACKGROUND - BAYBAYIN EDITION */
+.matrix-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.4;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.matrix-column {
+  position: relative;
+  top: 0;
+  flex: 1 1 auto;
+  min-width: 10px;
+  height: 100%;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: bold;
+  animation: fall linear infinite;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.matrix-column::before {
+  content: "ᜀᜁᜂᜃᜄᜅᜆᜇᜈᜉᜊᜋᜌᜎᜏᜐᜑᜁᜇᜐ᜔ ᜋᜀᜂᜇᜁᜎ᜔ ᜉ᜔ᜇᜈ᜔ᜃᜓ ᜉᜒ ᜋᜈ᜔ᜐᜒᜇ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #ffffff 5%,
+    #00ff41 10%,
+    #00ff41 20%,
+    #00dd33 30%,
+    #00bb22 40%,
+    #009911 50%,
+    #007700 60%,
+    #005500 70%,
+    #003300 80%,
+    rgba(0, 255, 65, 0.5) 90%,
+    transparent 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  writing-mode: vertical-lr;
+  letter-spacing: 1px;
+}
+
+/* Simple, explicit animation timings for the falling effect (Prevents freezing) */
+.matrix-column:nth-child(3n) { animation-delay: -0.5s; animation-duration: 3.5s; }
+.matrix-column:nth-child(3n+1) { animation-delay: -2.5s; animation-duration: 4.5s; }
+.matrix-column:nth-child(3n+2) { animation-delay: -4.5s; animation-duration: 3s; }
+.matrix-column:nth-child(5n) { animation-delay: -1.5s; animation-duration: 5s; }
+.matrix-column:nth-child(7n) { animation-delay: -3.5s; animation-duration: 4s; }
+
+@keyframes fall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* =========================================
+   2. NAVIGATION TABS
+   ========================================= */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.nav-btn {
+  background: #1a1a1a;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover { background: #222; color: #fff; }
+.nav-btn.active { background: #1db954; color: #111; border-color: #1db954; }
+
+/* =========================================
+   3. SLIDER SYSTEM
+   ========================================= */
+.slider-container { width: 100%; overflow: hidden; position: relative; z-index: 1; }
+.slider { display: flex; width: 200%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+.slider.about-active { transform: translateX(-50%); }
+.slide { width: 50%; flex-shrink: 0; padding: 0 20px; }
+
+/* =========================================
+   4. SLIDE 1: HOME CONTENT
+   ========================================= */
+header { text-align: center; padding: 20px 0 40px; border-bottom: 1px solid #2a2a2a; margin-bottom: 40px; }
+h1 { font-size: 3rem; font-weight: 800; letter-spacing: 2px; background: linear-gradient(90deg, #1db954, #1ed760); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+header p { color: #888; font-size: 1.1rem; margin-top: 8px; letter-spacing: 1px; }
+.main-container { display: flex; gap: 40px; max-width: 1200px; margin: 0 auto; align-items: flex-start; }
+
+/* PROFILE CARD */
+.profile-sidebar { flex: 0 0 320px; display: flex; flex-direction: column; gap: 20px; }
+.card { width: 100%; height: auto; border-radius: 30px; background: #1a1a1a; color: white; padding: 25px; box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 50px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 26px -18px inset; text-align: center; border: 1px solid #333; }
+.profile-pic { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #1db954; margin-bottom: 15px; }
+.card h2 { font-size: 1.5rem; margin-bottom: 5px; }
+.handle { color: #1db954; font-size: 0.9rem; margin-bottom: 15px; }
+.bio { font-size: 0.9rem; color: #aaa; margin-bottom: 20px; text-align: left; line-height: 1.5; }
+.profile-link { display: inline-block; background: #1db954; color: #111; text-decoration: none; font-weight: 700; padding: 10px 20px; border-radius: 8px; transition: background 0.2s, transform 0.2s; font-size: 0.9rem; }
+.profile-link:hover { background: #17a74a; transform: translateY(-2px); }
+
+/* SOCIAL LINKS */
+.social-container { display: flex; justify-content: center; }
+.example-1 { display: flex; justify-content: center; align-items: center; font-weight: bolder; background-color: #000; border-radius: 30px; padding: 10px 20px; height: 70px; width: 100%; border: 1px solid #333; }
+.example-1 .icon-content { margin: 0 10px; position: relative; font-weight: bolder; }
+.example-1 .icon-content .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background-color: #fff; color: #000; padding: 6px 10px; border-radius: 5px; opacity: 0; visibility: hidden; font-size: 14px; transition: all 0.3s ease; font-weight: bolder; white-space: nowrap; }
+.example-1 .icon-content:hover .tooltip { opacity: 1; visibility: visible; top: -50px; }
+.example-1 .icon-content .link { display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; border-radius: 50%; color: #fff; background-color: #000; transition: all 0.3s ease-in-out; font-weight: bolder; }
+.example-1 .icon-content .link:hover { box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%); }
+.example-1 .icon-content .link svg { width: 24px; height: 24px; fill: #fff; }
+.example-1 .icon-content .link[data-social="instagram"]:hover { color: #e1306c; }
+.example-1 .icon-content .link[data-social="facebook"]:hover { color: #1877f2; }
+.example-1 .icon-content .link[data-social="email"]:hover { color: #ea4335; }
+
+/* TRACKS */
+.tracks-content { flex: 1; }
+.tracks-content h2 { font-size: 1.8rem; margin-bottom: 25px; color: #1db954; }
+.track-embed { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 14px; padding: 20px; margin-bottom: 25px; }
+.track-embed h3 { font-size: 1.1rem; color: #ddd; margin-bottom: 12px; letter-spacing: 0.5px; }
+.track-embed iframe { display: block; border-radius: 10px; width: 100%; border: none; }
+
+/* =========================================
+   5. SLIDE 2: ABOUT ME CONTENT
+   ========================================= */
+.about-container { max-width: 800px; margin: 40px auto; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 40px; box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 50px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 26px -18px inset; }
+.about-container h2 { font-size: 2.5rem; color: #1db954; margin-bottom: 25px; text-align: center; }
+.about-text p { font-size: 1.1rem; color: #ccc; margin-bottom: 20px; line-height: 1.8; }
+.about-text strong { color: #fff; }
+.music-note { text-align: center; color: #1db954 !important; font-weight: bold; margin-top: 30px !important; font-size: 1rem !important; }
+.back-btn { display: block; margin: 40px auto 0; background: #1db954; color: #111; border: none; padding: 12px 30px; font-size: 1rem; }
+.back-btn:hover { background: #17a74a; color: #111; }
+
+/* =========================================
+   6. MUSIC CONTROLS (From Uiverse.io by laksh_7112)
+   ========================================= */
+.music-controls { display: flex; justify-content: center; margin: 30px 0; }
+.radio-input { display: flex; align-items: center; gap: 2px; background-color: black; padding: 4px; border-radius: 10px; z-index: 1; }
+.radio-input input { display: none; }
+.radio-input .label { width: 90px; height: 60px; background: linear-gradient(to bottom, #333333, rgb(36, 35, 35)); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; transition: all 0.1s linear; border-top: 1px solid #4e4d4d; background-color: #333333; position: relative; cursor: pointer; box-shadow: 0px 17px 5px 1px rgba(0, 0, 0, 0.2); }
+.label:has(input[type="radio"]:checked) { box-shadow: 0px 17px 5px 1px rgba(0, 0, 0, 0); background: linear-gradient(to bottom, #1d1d1d, #1d1d1d); border-top: none; }
+.label:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+.label:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+.label::before { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 103%; height: 100%; border-radius: 10px; background: linear-gradient(to bottom, transparent 10%, transparent, transparent 90%); transition: all 0.1s linear; z-index: -1; }
+.label:has(input[type="radio"]:checked)::before { background: linear-gradient(to bottom, transparent 10%, #cae2fd63, transparent 90%); }
+.label .text { color: white; font-size: 15px; line-height: 12px; padding: 0px; font-weight: 800; text-transform: uppercase; transition: all 0.1s linear; text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1), 0px 2px 3px rgb(0, 0, 0, 0.3); }
+.label input[type="radio"]:checked + .text { color: rgb(202, 226, 253); text-shadow: 0px 0px 12px #cae2fd; }
+
+/* =========================================
+   7. FOOTER & RESPONSIVE
+   ========================================= */
+footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.85rem; margin-top: 60px; border-top: 1px solid #2a2a2a; position: relative; z-index: 1; }
+@media (max-width: 768px) {
+  .main-container { flex-direction: column; }
+  .profile-sidebar { flex: 1 1 auto; width: 100%; }
+  h1 { font-size: 2.2rem; }
+  .matrix-column { font-size: 14px; line-height: 16px; min-width: 8px; }
+  .about-container { padding: 25px; margin: 20px auto; }
+  .about-container h2 { font-size: 2rem; }
+  .about-text p { font-size: 1rem; }
+}
+@media (max-width: 480px) {
+  .matrix-column { font-size: 12px; line-height: 14px; min-width: 6px; }
+}
